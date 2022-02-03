@@ -45,25 +45,22 @@ function capitalizarNomes(nomes) {
 function obterDescontoCategoria(categoria) {
   const categorias = ["Alimentação", "Infantil"];
   const descontos = [30, 15];
+  let index;
 
-  const desconto =
-    descontos[categorias.findIndex((element) => element === categoria)];
-  return desconto !== undefined ? desconto : 0;
+  index = categorias.findIndex((element) => element === categoria);
+
+  return index !== -1 ? descontos[index] : 0;
 }
 
 // Crie uma função que recebe uma lista de preços de produtos e um valor máximo de orçamento
 // e retorna uma lista com os preços menores ou iguais ao valor do orçamento informado
 // ([5, 7, 9, 50, 20], 9) => [5, 7, 9]
 function obterPrecosLimitadosAoOrcamento(lista, precoMaximo) {
-  const precosOrcamento = [];
   if (listaOk(lista)) {
-    for (var element of lista) {
-      if (parseInt(element) <= precoMaximo) {
-        precosOrcamento.push(element);
-      }
-    }
-    return precosOrcamento;
-  } else return undefined;
+    return lista.filter((item) => item <= precoMaximo);
+  } else {
+    return undefined;
+  }
 }
 
 // Crie uma função que recebe uma lista de preços de produtos de uma compra
@@ -86,15 +83,11 @@ function calcularTotalDaCompra(lista) {
 // Crie uma função que recebe uma lista de preços de produtos e retorna uma lista com o menor e o maior preço
 // ([10, 7, 8, 25, 8, 9, 100, 99]) => [7, 100]
 function obterMenorEMaiorPrecos(lista) {
-  const menor = obterMenorPreco(lista);
-  const maior = obterMaiorPreco(lista);
-  const listaMenorMaior = [];
-
-  if (menor !== undefined && maior !== undefined) {
-    listaMenorMaior.push(menor);
-    listaMenorMaior.push(maior);
-    return listaMenorMaior;
-  } else return undefined;
+  if (listaOk(lista)) {
+    return [obterMenorPreco(lista), obterMaiorPreco(lista)];
+  } else {
+    return undefined;
+  }
 }
 
 // Crie uma função que recebe uma lista de preços de produtos, um valor inferior e um valor superior de orçamento.
