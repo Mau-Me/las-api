@@ -1,0 +1,374 @@
+---
+swagger: "2.0"
+info:
+  description: "Está é a documentação da API para o Sistema\nde Licenciamento de Ambulantes\
+    \ de Salvador\nRepositório do Sistema:\n[las-api](https://github.com/tiagolpadua/las-api)\n"
+  version: "1.0.0"
+  title: "LAS-API"
+  contact:
+    email: "mauriciosm95@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "virtserver.swaggerhub.com"
+basePath: "/mau-me/LAS-API_NulabSSA/1.0.0"
+tags:
+- name: "produto"
+  description: "Operações relacionadas aos Produtos"
+- name: "categoria"
+  description: "Operações relacionadas as Categorias"
+- name: "cupom"
+  description: "Operações relacionadas aos Cupons"
+schemes:
+- "https"
+- "http"
+paths:
+  /produto:
+    get:
+      tags:
+      - "produto"
+      summary: "Obter lista de produtos"
+      operationId: "getProdutos"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/produto"
+      x-swagger-router-controller: "Produto"
+    post:
+      tags:
+      - "produto"
+      summary: "Cria prodduto"
+      description: "Add um produto no sistema"
+      operationId: "addProduto"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto do produto criado"
+        required: true
+        schema:
+          $ref: "#/definitions/produto"
+      responses:
+        default:
+          description: "Sucesso"
+      x-swagger-router-controller: "Produto"
+  /produto/{nome}:
+    get:
+      tags:
+      - "produto"
+      summary: "Obter um produto pelo seu nome"
+      operationId: "getProdutoByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome do produto que precisa ser buscado."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/produto"
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Produto não encontrado"
+      x-swagger-router-controller: "Produto"
+    put:
+      tags:
+      - "produto"
+      summary: "Atualiza um produto"
+      operationId: "updateProduto"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome que precisa ser atualizado"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Objeto do produto atualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/produto"
+      responses:
+        "400":
+          description: "Produto inválido fornecido"
+        "404":
+          description: "Produto não encontrado"
+      x-swagger-router-controller: "Produto"
+    delete:
+      tags:
+      - "produto"
+      summary: "Deletar produto"
+      operationId: "deleteProduto"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome do produto a ser excluído"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Produto não encontrado"
+      x-swagger-router-controller: "Produto"
+  /categoria:
+    get:
+      tags:
+      - "categoria"
+      summary: "Obter lista de categorias"
+      operationId: "getCategorias"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/categoria"
+      x-swagger-router-controller: "Categoria"
+    post:
+      tags:
+      - "categoria"
+      summary: "Cria categoria"
+      description: "Add uma categoria no sistema"
+      operationId: "addCategoria"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto da categoria criado"
+        required: true
+        schema:
+          $ref: "#/definitions/categoria"
+      responses:
+        default:
+          description: "Sucesso"
+      x-swagger-router-controller: "Categoria"
+  /categoria/{nome}:
+    get:
+      tags:
+      - "categoria"
+      summary: "Obter uma categoria pelo seu nome"
+      operationId: "getCategoriaByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome da categoria que precisa ser buscada."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/categoria"
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Categoria não encontrada"
+      x-swagger-router-controller: "Categoria"
+    put:
+      tags:
+      - "categoria"
+      summary: "Atualiza uma categoria"
+      operationId: "updateCategoria"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome que precisa ser atualizado"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Objeto da categoria atualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/categoria"
+      responses:
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Categoria não encontrada"
+      x-swagger-router-controller: "Categoria"
+    delete:
+      tags:
+      - "categoria"
+      summary: "Deletar categoria"
+      operationId: "deleteCategoria"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome da categoria a ser excluída"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Produto não encontrado"
+      x-swagger-router-controller: "Categoria"
+  /cupom:
+    get:
+      tags:
+      - "cupom"
+      summary: "Obter lista de cupons"
+      operationId: "getCupons"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/cupom"
+      x-swagger-router-controller: "Cupom"
+    post:
+      tags:
+      - "cupom"
+      summary: "Cria cupom"
+      description: "Add um cupom no sistema"
+      operationId: "addCupom"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto do cupom criado"
+        required: true
+        schema:
+          $ref: "#/definitions/cupom"
+      responses:
+        default:
+          description: "Sucesso"
+      x-swagger-router-controller: "Cupom"
+  /cupom/{nome}:
+    get:
+      tags:
+      - "cupom"
+      summary: "Obter um cupom pelo seu nome"
+      operationId: "getCupomByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome do cupom que precisa ser buscado."
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Sucesso"
+          schema:
+            $ref: "#/definitions/cupom"
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Cupom não encontrado"
+      x-swagger-router-controller: "Cupom"
+    put:
+      tags:
+      - "cupom"
+      summary: "Atualiza um cupom"
+      operationId: "updateCupom"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome que precisa ser atualizado"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Objeto do cupom atualizado"
+        required: true
+        schema:
+          $ref: "#/definitions/cupom"
+      responses:
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Cupom não encontrado"
+      x-swagger-router-controller: "Cupom"
+    delete:
+      tags:
+      - "cupom"
+      summary: "Deletar cupom"
+      operationId: "deleteCupom"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "nome"
+        in: "path"
+        description: "Nome do cupom a ser excluído"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Nome inválido fornecido"
+        "404":
+          description: "Cupom não encontrado"
+      x-swagger-router-controller: "Cupom"
+definitions:
+  produto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nome:
+        type: "string"
+      categoria:
+        type: "string"
+      preco:
+        type: "string"
+    example:
+      preco: "preco"
+      categoria: "categoria"
+      nome: "nome"
+      id: 0
+  categoria:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nome:
+        type: "string"
+      desconto:
+        type: "string"
+    example:
+      desconto: "desconto"
+      nome: "nome"
+      id: 0
+  cupom:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nome:
+        type: "string"
+    example:
+      nome: "nome"
+      id: 0
