@@ -2,7 +2,7 @@ const express = require("express");
 const consign = require("consign");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("../swagger.json");
+const swaggerDocument = require("../../swagger.json");
 
 const ENV = process.env.NODE_ENV;
 
@@ -17,7 +17,28 @@ module.exports = () => {
   consign().include("src/controllers").into(app);
 
   app.get("/", (_req, res) => {
-    res.send("Bem Vindo ao Las-API");
+    const home = {
+      Title: "Bem Vindo ao Las-API",
+      Routes: [
+        { url: "/usuarios", métodos: ["GET", "POST"] },
+        { url: "/usuarios/:usuarioId", métodos: ["GET", "PUT", "DELETE"] },
+        { url: "/usuarios/nome/:nomeUsuario", métodos: ["GET"] },
+        { url: "/usuarios/:usuarioId/dados-pessoais", métodos: ["GET", "PUT"] },
+        { url: "/usuarios/:usuarioId/contatos", métodos: ["GET", "PUT"] },
+        { url: "/usuarios/:usuarioId/senha", métodos: ["PUT"] },
+        { url: "/usuarios/:usuarioId/endereco", métodos: ["GET", "PUT"] },
+        { url: "/eventos", métodos: ["GET", "POST"] },
+        { url: "/eventos/:eventoId", métodos: ["GET", "PUT", "DELETE"] },
+        { url: "/eventos/status/:status", métodos: ["GET"] },
+        { url: "/tipos-vendas", métodos: ["GET", "POST"] },
+        { url: "/tipos-vendas", métodos: ["GET", "POST"] },
+        { url: "/ufs", métodos: ["GET"] },
+        { url: "/ufs/:uf", métodos: ["GET"] },
+      ],
+      Repo: "https://github.com/mau-me/las-api",
+    };
+
+    res.json(home);
   });
 
   // eslint-disable-next-line no-unused-vars
