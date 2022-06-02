@@ -1,40 +1,29 @@
-const pool = require("../infraestrutura/conexao");
+const repositorio = require("../repositorio/usuario");
 const fetch = require("node-fetch");
+const { cpf } = require("cpf-cnpj-validator");
 
 class Usuarios {
-  listar(res, next) {
-    const sql = "SELECT * FROM Usuarios";
-    pool.query(sql, (erro, resultados) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(resultados);
-      }
-    });
+  listar() {
+    return repositorio.listar();
   }
 
-  buscarPorId(id, res, next) {
-    const sql = "SELECT * FROM Usuarios WHERE id = ?";
-    pool.query(sql, id, (erro, resultados) => {
-      const usuario = resultados[0];
-      if (erro) {
-        next(erro);
-      } else {
-        if (usuario) {
-          res.status(200).json(usuario);
-        } else {
-          res.status(404).end();
-        }
-      }
-    });
+  buscarPorId(id) {
+    return repositorio.buscaPorId(id);
   }
 
-  async adicionar(usuario, res, next) {
-    const nomeEhValido =
-      usuario.nome.length > 0 &&
-      (await this.validarNomeUsuarioNaoUtilizado(usuario.nome));
+  async adicionar(usuario) {
+    let nomeEhValido = false;
+    if (usuario?.nome?.length > 0) {
+      const nomeUtilizado = await repositorio.isNomeUsuarioUtilizado(
+        usuario.nome
+      );
 
-    const urlEhValida = await this.validarURLFotoPerfil(usuario.urlFotoPerfil);
+      if (!nomeUtilizado) {
+        nomeEhValido = true;
+      }
+    }
+
+    const urlEhValida = await this.validarURLFotoPerfil(usuario?.urlFotoPerfil);
 
     const validacoes = [
       {
@@ -53,51 +42,67 @@ class Usuarios {
     const existemErros = erros.length;
 
     if (existemErros) {
-      res.status(400).json(erros);
-    } else {
-      const sql = "INSERT INTO Usuarios SET ?";
+      return Promise.reject(erros);
+    }
+    const resp = await repositorio.adiciona(usuario);
+    return { id: resp.insertId, ...usuario };
+  }
 
-      pool.query(sql, usuario, (erro) => {
-        if (erro) {
-          next(erro);
-        } else {
-          res.status(201).json(usuario);
-        }
+  alterar(id, valores) {
+    return repositorio.alterar(id, valores);
+  }
+
+  excluir(id) {
+    return repositorio.excluir(id);
+  }
+
+  buscarPorNome(nome) {
+    return repositorio.buscarPorNome(nome);
+  }
+
+  buscarDadosPessoais(id) {
+    return repositorio.buscarDadosPessoais(id);
+  }
+
+  atualizarDadosPessoais(id, dadosPessoais) {
+    const cpfEhValido = this.isCPFValido(dadosPessoais.cpf);
+    if (!cpfEhValido) {
+      return Promise.reject({
+        nome: "cpf",
+        valido: cpfEhValido,
+        mensagem: "CPF informado deve ser válido",
       });
     }
+    return repositorio.atualizarDadosPessoais(id, dadosPessoais);
   }
 
-  alterar(id, valores, res, next) {
-    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
-    pool.query(sql, [valores, id], (erro) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(valores);
-      }
-    });
+  buscarContatos(id) {
+    return repositorio.buscarContatos(id);
   }
 
-  excluir(id, res, next) {
-    const sql = "DELETE FROM Usuarios WHERE id = ?";
-    pool.query(sql, id, (erro) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json({ id });
-      }
-    });
+  atualizarContatos(id, valores) {
+    if (isNaN(id)) {
+      return Promise.reject();
+    }
+    return repositorio.atualizarContatos(id, valores);
   }
 
-  buscarPorNome(nome, res, next) {
-    const sql = "SELECT * FROM Usuarios WHERE nome like ?";
-    pool.query(sql, "%" + nome + "%", (erro, resultados) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(resultados);
-      }
-    });
+  atualizarSenha(id, valores) {
+    if (isNaN(id)) {
+      return Promise.reject();
+    }
+    return repositorio.atualizarSenha(id, valores);
+  }
+
+  buscarEndereco(id) {
+    return repositorio.buscarEndereco(id);
+  }
+
+  atualizarEndereco(id, valores) {
+    if (isNaN(id)) {
+      return Promise.reject();
+    }
+    return repositorio.atualizarEndereco(id, valores);
   }
 
   async validarURLFotoPerfil(url) {
@@ -119,21 +124,8 @@ class Usuarios {
     }
   }
 
-  async validarNomeUsuarioNaoUtilizado(nome) {
-    return new Promise((resolve) => {
-      const sql = "SELECT * FROM Usuarios WHERE nome = ?";
-      pool.query(sql, nome, (erro, resultados) => {
-        if (erro) {
-          resolve(false);
-        } else {
-          if (resultados.length > 0) {
-            resolve(false);
-          } else {
-            resolve(true);
-          }
-        }
-      });
-    });
+  isCPFValido(numCpf) {
+    return cpf.isValid(numCpf);
   }
 }
 

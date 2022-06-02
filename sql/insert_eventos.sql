@@ -1,0 +1,3 @@
+INSERT INTO Eventos(nome, descricao, urlFoto, dataInicio, dataFim) values('Carnaval 2021', 'Carnaval de Salvador 2021', 'https://trello.com/1/cards/6270532f00826702fcde8c27/attachments/6270532f00826702fcde8d83/download/image.png', '2022-05-01', '2022-05-07'),
+('São João', 'São João de Salvador', 'https://trello.com/1/cards/6270532f00826702fcde8c27/attachments/6270532f00826702fcde8d83/download/image.png', '2022-06-11', '2022-06-24'),
+('Festa -o Ano Todo-', 'Festa que acontece todos os dias do ano', 'https://salvador/assets/imgs/festa-ano-todo.png', '2022-01-01', '2022-12-31');
