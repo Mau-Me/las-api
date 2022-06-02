@@ -1,7 +1,7 @@
 const Eventos = require("../models/eventos");
 
 module.exports = (app) => {
-  app.get("/eventos", (req, res) => {
+  app.get("/eventos", (_req, res) => {
     Eventos.listar()
       .then((resultados) => res.json(resultados))
       .catch((erros) => res.status(500).json(erros));

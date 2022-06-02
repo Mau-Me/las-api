@@ -17,7 +17,7 @@ module.exports = () => {
   });
 
   // eslint-disable-next-line no-unused-vars
-  app.use((err, req, res, next) => {
+  app.use((err, _req, res, _next) => {
     if (err) {
       if (ENV === "production") {
         res.status(500).send({ error: "Algo deu errado..." });

@@ -1,7 +1,7 @@
 const Usuarios = require("../models/usuarios");
 
 module.exports = (app) => {
-  app.get("/usuarios", (req, res) => {
+  app.get("/usuarios", (_req, res) => {
     Usuarios.listar()
       .then((resultados) => res.json(resultados))
       .catch((erros) => res.status(500).json(erros));

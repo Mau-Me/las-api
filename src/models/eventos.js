@@ -67,10 +67,10 @@ class Eventos {
     const dataInicioEvento = moment(dataInicio).format("YYYY-MM-DD");
     const dataFimEvento = moment(dataFim).format("YYYY-MM-DD");
 
-    const dataEventoEhValida =
+    return (
       moment(dataInicioEvento).isSameOrAfter(dataCriacao) &&
-      moment(dataFimEvento).isSameOrAfter(dataInicioEvento);
-    return dataEventoEhValida;
+      moment(dataFimEvento).isSameOrAfter(dataInicioEvento)
+    );
   }
 
   insereStatusNoEvento(evento) {
