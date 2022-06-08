@@ -3,13 +3,11 @@ const consign = require("consign");
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("../../swagger.json");
-const fetch = require("node-fetch");
 
 const ENV = process.env.NODE_ENV;
 
 module.exports = () => {
   const app = express();
-  acordaHeroku();
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -57,12 +55,3 @@ module.exports = () => {
 
   return app;
 };
-
-async function acordaHeroku() {
-  const url = "http://las-api.herokuapp.com/";
-
-  await fetch(url);
-  setTimeout(() => {
-    acordaHeroku;
-  }, 240000);
-}
